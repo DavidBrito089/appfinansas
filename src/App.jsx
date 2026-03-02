@@ -6,6 +6,7 @@ import ExpenseDashboard from './components/ExpenseDashboard';
 import ExpenseForm from './components/ExpenseForm';
 import ExpenseTable from './components/ExpenseTable';
 import TransactionFilters from './components/TransactionFilters';
+import SuccessAnimation from './components/SuccessAnimation';
 import AuthScreen from './components/AuthScreen';
 import { onAuthStateChange, signOut, getCurrentUser } from './lib/supabase';
 import {
@@ -37,6 +38,7 @@ export default function App() {
     const [activeView, setActiveView] = useState('transactions'); // 'transactions' or 'dashboard'
     const [expandedPanel, setExpandedPanel] = useState(null); // null, 'form', or 'filters'
     const [isScrolled, setIsScrolled] = useState(false); // Scroll state for dynamic header background
+    const [showSuccess, setShowSuccess] = useState(false); // Success animation state
 
     // Listen for auth state changes
     useEffect(() => {
@@ -191,6 +193,7 @@ export default function App() {
         const newExpense = await addExpense(activeSheetId, expenseData);
         if (newExpense) {
             setExpenses(prev => [newExpense, ...prev]);
+            setShowSuccess(true);
         }
     };
 
@@ -312,7 +315,7 @@ export default function App() {
                         {/* Sticky Mobile Header - Shows sheet title centered with integrated buttons */}
                         <div
                             className={`lg:hidden sticky -top-4 z-20 -mx-4 px-4 pt-2 pb-3 backdrop-blur-md border-b border-white/5 flex items-center justify-between gap-4 transition-colors duration-300 ${isScrolled ? '' : 'bg-transparent border-transparent'}`}
-                            style={isScrolled ? { backgroundColor: 'rgb(30 27 75 / 0.95)' } : {}}
+                            style={isScrolled ? { backgroundColor: 'rgb(12 10 29 / 0.95)' } : {}}
                         >
                             <button
                                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -383,10 +386,52 @@ export default function App() {
                         {/* Conditional Content based on Active View */}
                         {activeView === 'transactions' ? (
                             <>
+                                {/* Summary Stat Cards */}
+                                <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-4 mb-4 lg:mb-6">
+                                    <div className="stat-card-income glass-card rounded-2xl lg:rounded-[1.5rem] p-4 lg:p-5 transition-all duration-300 animate-slide-in stagger-1">
+                                        <div className="flex items-center gap-2 mb-2">
+                                            <div className="w-8 h-8 lg:w-9 lg:h-9 rounded-xl bg-emerald-500/15 flex items-center justify-center">
+                                                <TrendingUp size={16} className="text-emerald-400" />
+                                            </div>
+                                            <span className="text-[9px] lg:text-[10px] font-black text-emerald-400/70 uppercase tracking-widest">Ingresos</span>
+                                        </div>
+                                        <p className="text-lg lg:text-2xl font-black text-white tracking-tighter">{formatCurrency(totalIncome)}</p>
+                                    </div>
+                                    <div className="stat-card-expense glass-card rounded-2xl lg:rounded-[1.5rem] p-4 lg:p-5 transition-all duration-300 animate-slide-in stagger-2">
+                                        <div className="flex items-center gap-2 mb-2">
+                                            <div className="w-8 h-8 lg:w-9 lg:h-9 rounded-xl bg-red-500/15 flex items-center justify-center">
+                                                <TrendingDown size={16} className="text-red-400" />
+                                            </div>
+                                            <span className="text-[9px] lg:text-[10px] font-black text-red-400/70 uppercase tracking-widest">Gastos</span>
+                                        </div>
+                                        <p className="text-lg lg:text-2xl font-black text-white tracking-tighter">{formatCurrency(totalExpenses)}</p>
+                                    </div>
+                                    <div className="stat-card-debt glass-card rounded-2xl lg:rounded-[1.5rem] p-4 lg:p-5 transition-all duration-300 animate-slide-in stagger-3">
+                                        <div className="flex items-center gap-2 mb-2">
+                                            <div className="w-8 h-8 lg:w-9 lg:h-9 rounded-xl bg-amber-500/15 flex items-center justify-center">
+                                                <Clock size={16} className="text-amber-400" />
+                                            </div>
+                                            <span className="text-[9px] lg:text-[10px] font-black text-amber-400/70 uppercase tracking-widest">Por Cobrar</span>
+                                        </div>
+                                        <p className="text-lg lg:text-2xl font-black text-white tracking-tighter">{formatCurrency(totalPendingDebts)}</p>
+                                    </div>
+                                    <div className="stat-card-balance glass-card rounded-2xl lg:rounded-[1.5rem] p-4 lg:p-5 transition-all duration-300 animate-slide-in stagger-4">
+                                        <div className="flex items-center gap-2 mb-2">
+                                            <div className="w-8 h-8 lg:w-9 lg:h-9 rounded-xl bg-primary-500/15 flex items-center justify-center">
+                                                <Wallet size={16} className="text-primary-400" />
+                                            </div>
+                                            <span className="text-[9px] lg:text-[10px] font-black text-primary-400/70 uppercase tracking-widest">Balance</span>
+                                        </div>
+                                        <p className={`text-lg lg:text-2xl font-black tracking-tighter ${balance >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
+                                            {balance >= 0 ? '+' : ''}{formatCurrency(balance)}
+                                        </p>
+                                    </div>
+                                </div>
+
                                 {/* Sticky Form/Filter Controls on Mobile */}
                                 <div
                                     className={`lg:static sticky top-8 z-10 -mx-4 px-4 lg:mx-0 lg:px-0 py-3 lg:py-0 lg:bg-transparent backdrop-blur-md lg:backdrop-blur-none border-b border-white/5 lg:border-0 transition-colors duration-300 ${isScrolled ? '' : 'bg-transparent border-transparent'}`}
-                                    style={isScrolled ? { backgroundColor: 'rgb(30 27 75 / 0.95)' } : {}}
+                                    style={isScrolled ? { backgroundColor: 'rgb(12 10 29 / 0.95)' } : {}}
                                 >
                                     <div className="grid grid-cols-2 gap-2 lg:gap-6">
                                         {/* Expense Form */}
@@ -517,13 +562,23 @@ export default function App() {
                             </button>
                         </div>
                         <ExpenseForm
+                            isExpanded={true}
                             onAddExpense={(expense) => {
                                 handleAddExpense(expense);
-                                setShowMobileForm(false);
                             }}
                         />
                     </div>
                 </div>
+            )}
+
+            {/* Success Animation Overlay */}
+            {showSuccess && (
+                <SuccessAnimation
+                    onComplete={() => {
+                        setShowSuccess(false);
+                        setShowMobileForm(false);
+                    }}
+                />
             )}
         </div>
     );

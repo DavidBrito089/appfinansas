@@ -64,7 +64,7 @@ export default function AuthScreen({ onAuthSuccess }) {
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center p-4 relative overflow-hidden bg-[#0f1021]">
+        <div className="min-h-screen flex items-center justify-center p-4 relative overflow-hidden bg-[#0c0a1d]">
             {/* Visual Background Elements */}
             <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-primary-600/20 blur-[120px] rounded-full animate-float" />
             <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-accent-600/20 blur-[120px] rounded-full animate-float stagger-3" />
@@ -101,7 +101,7 @@ export default function AuthScreen({ onAuthSuccess }) {
                             <div className="w-full border-t border-white/5"></div>
                         </div>
                         <div className="relative flex justify-center text-xs">
-                            <span className="px-4 text-gray-500 bg-[#0f1021]/50 backdrop-blur-sm rounded-full">o continúa con email</span>
+                            <span className="px-4 text-gray-500 bg-[#0c0a1d]/50 backdrop-blur-sm rounded-full">o continúa con email</span>
                         </div>
                     </div>
 

@@ -81,7 +81,7 @@ export default function TransactionFilters({ filters, onFilterChange, onClearFil
                                     type="date"
                                     value={filters.dateFrom || ''}
                                     onChange={(e) => handleChange('dateFrom', e.target.value)}
-                                    className="w-full pl-12 pr-4 py-3.5 rounded-2xl bg-white/[0.03] border border-white/5 text-white focus:outline-none focus:border-primary-500/50 focus:bg-white/[0.06] transition-all text-sm font-bold [color-scheme:dark]"
+                                    className="w-full pl-12 pr-4 py-3.5 rounded-2xl bg-white/[0.05] border border-white/[0.08] text-white focus:outline-none focus:border-primary-500/50 focus:bg-white/[0.08] transition-all text-sm font-bold [color-scheme:dark]"
                                 />
                             </div>
                         </div>
@@ -99,7 +99,7 @@ export default function TransactionFilters({ filters, onFilterChange, onClearFil
                                     type="date"
                                     value={filters.dateTo || ''}
                                     onChange={(e) => handleChange('dateTo', e.target.value)}
-                                    className="w-full pl-12 pr-4 py-3.5 rounded-2xl bg-white/[0.03] border border-white/5 text-white focus:outline-none focus:border-primary-500/50 focus:bg-white/[0.06] transition-all text-sm font-bold [color-scheme:dark]"
+                                    className="w-full pl-12 pr-4 py-3.5 rounded-2xl bg-white/[0.05] border border-white/[0.08] text-white focus:outline-none focus:border-primary-500/50 focus:bg-white/[0.08] transition-all text-sm font-bold [color-scheme:dark]"
                                 />
                             </div>
                         </div>
@@ -120,7 +120,7 @@ export default function TransactionFilters({ filters, onFilterChange, onClearFil
                                     placeholder="0.00"
                                     min="0"
                                     step="0.01"
-                                    className="w-full pl-12 pr-4 py-3.5 rounded-2xl bg-white/[0.03] border border-white/5 text-white placeholder-gray-700 focus:outline-none focus:border-primary-500/50 focus:bg-white/[0.06] transition-all text-sm font-black tracking-tighter"
+                                    className="w-full pl-12 pr-4 py-3.5 rounded-2xl bg-white/[0.05] border border-white/[0.08] text-white placeholder-gray-600 focus:outline-none focus:border-primary-500/50 focus:bg-white/[0.08] transition-all text-sm font-black tracking-tighter"
                                 />
                             </div>
                         </div>
@@ -141,7 +141,7 @@ export default function TransactionFilters({ filters, onFilterChange, onClearFil
                                     placeholder="∞"
                                     min="0"
                                     step="0.01"
-                                    className="w-full pl-12 pr-4 py-3.5 rounded-2xl bg-white/[0.03] border border-white/5 text-white placeholder-gray-700 focus:outline-none focus:border-primary-500/50 focus:bg-white/[0.06] transition-all text-sm font-black tracking-tighter"
+                                    className="w-full pl-12 pr-4 py-3.5 rounded-2xl bg-white/[0.05] border border-white/[0.08] text-white placeholder-gray-600 focus:outline-none focus:border-primary-500/50 focus:bg-white/[0.08] transition-all text-sm font-black tracking-tighter"
                                 />
                             </div>
                         </div>

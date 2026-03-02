@@ -38,9 +38,10 @@ export default function Sidebar({
     return (
         <aside
             className={`
-        h-screen glass-card flex flex-col transition-all duration-500 ease-[cubic-bezier(0.16, 1, 0.3, 1)]
-        ${isCollapsed ? 'w-20' : 'w-72'} border-r border-white-[0.05]
+        h-screen flex flex-col transition-all duration-500 ease-[cubic-bezier(0.16, 1, 0.3, 1)]
+        ${isCollapsed ? 'w-20' : 'w-72'} border-r border-white/[0.06]
       `}
+            style={{ background: 'linear-gradient(180deg, rgba(15, 12, 40, 0.8) 0%, rgba(10, 8, 30, 0.95) 100%)', backdropFilter: 'blur(24px)' }}
         >
             {/* Header */}
             <div className="p-6 border-b border-white/5">
@@ -210,11 +211,11 @@ export default function Sidebar({
 
             {/* Footer */}
             {!isCollapsed && (
-                <div className="p-6 border-t border-white/5">
-                    <div className="flex items-center justify-center gap-2 text-gray-600 hover:text-gray-400 transition-colors cursor-default group">
+                <div className="p-5 border-t border-white/[0.04]">
+                    <div className="flex items-center justify-center gap-2 text-gray-600 cursor-default">
                         <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                        <p className="text-[10px] font-bold uppercase tracking-[0.2em]">
-                            System Active
+                        <p className="text-[9px] font-bold uppercase tracking-[0.25em]">
+                            Conectado
                         </p>
                     </div>
                 </div>

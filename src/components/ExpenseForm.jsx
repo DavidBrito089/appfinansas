@@ -1,16 +1,35 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Plus, Calendar, MapPin, Tag, DollarSign, FileText, TrendingUp, TrendingDown, UserCheck } from 'lucide-react';
 import { CATEGORY_LIST } from '../utils/categories';
 
+const STORAGE_KEY = 'expenseFormDraft';
+
+const getDefaultFormData = () => ({
+    title: '',
+    amount: '',
+    date: new Date().toISOString().split('T')[0],
+    location: '',
+    category: 'Otros',
+    type: 'expense'
+});
+
+const getSavedFormData = () => {
+    try {
+        const saved = sessionStorage.getItem(STORAGE_KEY);
+        if (saved) {
+            return { ...getDefaultFormData(), ...JSON.parse(saved) };
+        }
+    } catch (e) { /* ignore */ }
+    return getDefaultFormData();
+};
+
 export default function ExpenseForm({ onAddExpense, isExpanded, onToggle }) {
-    const [formData, setFormData] = useState({
-        title: '',
-        amount: '',
-        date: new Date().toISOString().split('T')[0],
-        location: '',
-        category: 'Otros',
-        type: 'expense' // 'expense', 'income', or 'debt'
-    });
+    const [formData, setFormData] = useState(getSavedFormData);
+
+    // Persist form data to sessionStorage on every change
+    useEffect(() => {
+        sessionStorage.setItem(STORAGE_KEY, JSON.stringify(formData));
+    }, [formData]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -39,15 +58,10 @@ export default function ExpenseForm({ onAddExpense, isExpanded, onToggle }) {
 
         onAddExpense(newExpense);
 
-        // Reset form
-        setFormData({
-            title: '',
-            amount: '',
-            date: new Date().toISOString().split('T')[0],
-            location: '',
-            category: 'Otros',
-            type: 'expense'
-        });
+        // Reset form and clear saved draft
+        const resetData = getDefaultFormData();
+        setFormData(resetData);
+        sessionStorage.removeItem(STORAGE_KEY);
     };
 
     const getTypeStyles = () => {
@@ -186,7 +200,7 @@ export default function ExpenseForm({ onAddExpense, isExpanded, onToggle }) {
                                         onChange={handleChange}
                                         placeholder={placeholders.title}
                                         required
-                                        className="w-full pl-12 pr-4 py-3.5 rounded-2xl bg-white/[0.03] border border-white/5 text-white placeholder-gray-700 focus:outline-none focus:border-primary-500/50 focus:bg-white/[0.06] transition-all text-sm font-bold tracking-tight"
+                                        className="w-full pl-12 pr-4 py-3.5 rounded-2xl bg-white/[0.05] border border-white/[0.08] text-white placeholder-gray-600 focus:outline-none focus:border-primary-500/50 focus:bg-white/[0.08] transition-all text-sm font-bold tracking-tight"
                                     />
                                 </div>
                             </div>
@@ -207,7 +221,7 @@ export default function ExpenseForm({ onAddExpense, isExpanded, onToggle }) {
                                         min="0.01"
                                         step="0.01"
                                         required
-                                        className="w-full pl-12 pr-4 py-3.5 rounded-2xl bg-white/[0.03] border border-white/5 text-white placeholder-gray-700 focus:outline-none focus:border-primary-500/50 focus:bg-white/[0.06] transition-all text-sm font-black tracking-tighter"
+                                        className="w-full pl-12 pr-4 py-3.5 rounded-2xl bg-white/[0.05] border border-white/[0.08] text-white placeholder-gray-600 focus:outline-none focus:border-primary-500/50 focus:bg-white/[0.08] transition-all text-sm font-black tracking-tighter"
                                     />
                                 </div>
                             </div>
@@ -225,7 +239,7 @@ export default function ExpenseForm({ onAddExpense, isExpanded, onToggle }) {
                                         value={formData.date}
                                         onChange={handleChange}
                                         required
-                                        className="w-full pl-12 pr-4 py-3.5 rounded-2xl bg-white/[0.03] border border-white/5 text-white focus:outline-none focus:border-primary-500/50 focus:bg-white/[0.06] transition-all text-sm font-bold [color-scheme:dark]"
+                                        className="w-full pl-12 pr-4 py-3.5 rounded-2xl bg-white/[0.05] border border-white/[0.08] text-white focus:outline-none focus:border-primary-500/50 focus:bg-white/[0.08] transition-all text-sm font-bold [color-scheme:dark]"
                                     />
                                 </div>
                             </div>
@@ -265,7 +279,7 @@ export default function ExpenseForm({ onAddExpense, isExpanded, onToggle }) {
                                         name="category"
                                         value={formData.category}
                                         onChange={handleChange}
-                                        className="w-full pl-12 pr-10 py-3.5 rounded-2xl bg-white/[0.03] border border-white/5 text-white focus:outline-none focus:border-primary-500/50 focus:bg-white/[0.06] transition-all text-sm font-bold appearance-none cursor-pointer"
+                                        className="w-full pl-12 pr-10 py-3.5 rounded-2xl bg-white/[0.05] border border-white/[0.08] text-white focus:outline-none focus:border-primary-500/50 focus:bg-white/[0.08] transition-all text-sm font-bold appearance-none cursor-pointer"
                                     >
                                         {CATEGORY_LIST.map(cat => (
                                             <option key={cat} value={cat} className="bg-gray-900 font-bold">

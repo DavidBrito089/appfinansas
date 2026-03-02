@@ -264,46 +264,15 @@ export default function ExpenseTable({ expenses, onDeleteExpense, onUpdateExpens
                 </div>
 
                 {/* Footer with Balance */}
-                <div className="px-8 py-8 bg-gradient-to-br from-primary-900/40 via-primary-800/20 to-transparent border-t border-white/5 relative overflow-hidden">
-                    {/* Footer background glow */}
-                    <div className="absolute bottom-[-50%] right-[-5%] w-[30%] h-[200%] bg-primary-500/10 blur-[80px] rounded-full pointer-events-none" />
-
-                    <div className="relative z-10 flex flex-col lg:flex-row items-center justify-between gap-8">
-                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
-                            <div className="flex items-center gap-4 group/item">
-                                <div className="w-12 h-12 rounded-2xl bg-emerald-500/10 flex items-center justify-center border border-emerald-500/20 group-hover/item:scale-110 transition-transform">
-                                    <TrendingUp size={20} className="text-emerald-400" />
-                                </div>
-                                <div className="flex flex-col">
-                                    <span className="text-[10px] font-black text-emerald-500/60 uppercase tracking-widest">Total Ingresos</span>
-                                    <span className="text-xl font-black text-white tracking-tight">{formatCurrency(totalIncome || 0)}</span>
-                                </div>
-                            </div>
-
-                            <div className="flex items-center gap-4 group/item">
-                                <div className="w-12 h-12 rounded-2xl bg-red-500/10 flex items-center justify-center border border-red-500/20 group-hover/item:scale-110 transition-transform">
-                                    <TrendingDown size={20} className="text-red-400" />
-                                </div>
-                                <div className="flex flex-col">
-                                    <span className="text-[10px] font-black text-red-500/60 uppercase tracking-widest">Total Gastos</span>
-                                    <span className="text-xl font-black text-white tracking-tight">{formatCurrency(totalExpenses || 0)}</span>
-                                </div>
-                            </div>
-
-                            <div className="flex items-center gap-4 group/item">
-                                <div className="w-12 h-12 rounded-2xl bg-amber-500/10 flex items-center justify-center border border-amber-500/20 group-hover/item:scale-110 transition-transform">
-                                    <Clock size={20} className="text-amber-400" />
-                                </div>
-                                <div className="flex flex-col">
-                                    <span className="text-[10px] font-black text-amber-500/60 uppercase tracking-widest">Por Cobrar</span>
-                                    <span className="text-xl font-black text-white tracking-tight">{formatCurrency(totalPendingDebts || 0)}</span>
-                                </div>
-                            </div>
+                <div className="px-6 lg:px-8 py-5 lg:py-6 border-t border-white/[0.04] bg-white/[0.015] relative overflow-hidden">
+                    <div className="relative z-10 flex items-center justify-between">
+                        <div className="flex items-center gap-3 text-sm text-gray-500">
+                            <Receipt size={16} className="text-gray-600" />
+                            <span className="font-bold">{expenses.length} transacciones</span>
                         </div>
-
-                        <div className="flex flex-col items-center lg:items-end bg-white/5 border border-white/10 px-8 py-5 rounded-[2rem] shadow-2xl backdrop-blur-xl border-glow">
-                            <span className="text-xs font-black text-primary-400 uppercase tracking-[0.2em] mb-1">Balance General</span>
-                            <span className={`text-4xl font-black tracking-tighter ${(balance || 0) >= 0 ? 'text-white' : 'text-red-400'}`}>
+                        <div className="flex items-center gap-3">
+                            <span className="text-[10px] font-black text-gray-600 uppercase tracking-widest hidden sm:block">Balance</span>
+                            <span className={`text-xl lg:text-2xl font-black tracking-tighter ${(balance || 0) >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
                                 {(balance || 0) >= 0 ? '+' : ''}{formatCurrency(balance || 0)}
                             </span>
                         </div>
